@@ -1,4 +1,5 @@
 import React from 'react';
+import {nanoid} from "nanoid";
 
 interface IBurger {
     classesOfIngredient: React.ReactNode[];

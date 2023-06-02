@@ -22,7 +22,7 @@ interface IIngredients {
 const Ingredients: React.FC<IIngredients> = ({ingredients, onIngredientClick, INGREDIENTS, onIngredientDelete}) => {
     const ingredientsList = ingredients.map((ingredient, index) => {
         return (
-            <div>
+            <div key={ingredient.id}>
                 <div className="list">
                     <a href="#" onClick={() => onIngredientClick(ingredient.name, index)}>
                         <img alt={ingredient.name} src={INGREDIENTS[index].image} className="ingredients-img"/>

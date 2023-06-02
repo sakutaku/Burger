@@ -79,7 +79,7 @@ const App = () => {
 
   ingredients.map(ingredient => {
       for(let i = 0; i < ingredient.count; i++) {
-          classesOfIngredient.push(<div className={ingredient.name}></div>);
+          classesOfIngredient.push(<div className={ingredient.name} key={ingredient.id}></div>);
       }
   });
 
@@ -92,5 +92,5 @@ const App = () => {
         <Count price={price[0]}/>
     </div>
   );
-}
+};
 export default App;
