@@ -1,18 +1,43 @@
 body{
+  font-family: "JetBrains Mono",monospace;
+  color: #fff;
   background-image: url("../kitchen.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
+.container{
+  width: 700px;
+  margin: 400px auto 0;
+}
 .App {
   display: flex;
   justify-content: space-between;
-  width: 700px;
-  margin: 500px auto 0;
 }
-
+.ingredients-title{
+  font-size: 24px;
+}
+.ingredients-img {
+  width: 50px;
+}
+.ingredients-box{
+  padding: 20px;
+  font-size: 18px;
+  width: 250px;
+}
 .list{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.delete-btn{
+  background-image: url("../trash.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 15px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .BreadBottom {
@@ -158,4 +183,9 @@ body{
     height: 200px;
   }
 }
-
+.price-count{
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+}
