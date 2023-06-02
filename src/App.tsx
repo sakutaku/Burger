@@ -8,6 +8,9 @@ import SaladImage from './assets/salad.png';
 import BakonImage from './assets/bakon.png';
 import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
+import Count from "./Count/Count";
+import Ingredients from "./Ingredients/Ingredients";
+import Burger from "./Burger/Burger";
 
 interface Ingredient {
     name: string,
@@ -29,28 +32,34 @@ const App = () => {
     {name: 'Bacon', count: 0, id: nanoid()},
   ]);
 
-  const [price, setPrice] = useState([0]);
-  const onDelete = (name: string, id: number) =>  {
+  const [price, setPrice] = useState([30]);
+
+  const onIngredientDelete = (name: string, id: number) =>  {
+      const priceCopy = [...price];
+
+      INGREDIENTS.map(ingredient => {
+          if(name === ingredient.name) {
+
+              if(priceCopy[0] > 30) {
+                  priceCopy[0] = priceCopy[0] - ingredient.price;
+              } else {
+                  priceCopy[0] = 30;
+              }
+          }
+      });
+
       const ingredientsCopy = [...ingredients];
       const ingredientsObjCopy = {...ingredientsCopy[id]};
 
       if(ingredientsObjCopy.count > 0) {
           ingredientsObjCopy.count = ingredientsObjCopy.count - 1;
       }
-
       ingredientsCopy[id] = ingredientsObjCopy;
-
-      INGREDIENTS.map(ingredient => {
-          if(ingredient.name === name) {
-              const priceCopy = [...price];
-              priceCopy[0] = priceCopy[0] - ingredient.price;
-              setPrice(priceCopy);
-          }
-      });
+      setPrice(priceCopy);
       setIngredients(ingredientsCopy);
   };
 
-  const onItemClick = (name: string, id: number) => {
+  const onIngredientClick = (name: string, id: number) => {
       INGREDIENTS.map(ingredient => {
          if(ingredient.name === name) {
              const priceCopy = [...price];
@@ -66,23 +75,6 @@ const App = () => {
       });
     };
 
-
-  const ingredientsList = ingredients.map((ingredient, index) => {
-      return (
-            <div>
-                <div className="list">
-                    <a href="#" onClick={() => onItemClick(ingredient.name, index)}>
-                        <img alt={ingredient.name} src={INGREDIENTS[index].image} className="ingredients-img"/>
-                    </a>
-                    <span>{ingredient.name}</span>
-                    <span>x{ingredient.count}</span>
-                    <button type="button" className="delete-btn" onClick={() => onDelete(ingredient.name, index)}></button>
-                </div>
-            </div>
-      )
-  });
-
-
   const classesOfIngredient: React.ReactNode[] = [];
 
   ingredients.map(ingredient => {
@@ -94,24 +86,11 @@ const App = () => {
   return (
     <div className="container">
         <div className="App">
-            <div className="ingredients-box">
-                <h2 className="ingredients-title">Ingredients</h2>
-                {ingredientsList}
-            </div>
-            <div className="Burger">
-                <div className="BreadTop">
-                    <div className="Seeds1"></div>
-                    <div className="Seeds2"></div>
-                </div>
-                {classesOfIngredient.map(item => {
-                    return item;
-                })}
-                <div className="BreadBottom"></div>
-            </div>
+            <Ingredients ingredients={ingredients} onIngredientClick={onIngredientClick} INGREDIENTS={INGREDIENTS} onIngredientDelete={onIngredientDelete}/>
+            <Burger classesOfIngredient={classesOfIngredient}/>
         </div>
-        <div className="price-count">Price: {price[0]}</div>
+        <Count price={price[0]}/>
     </div>
   );
 }
-
 export default App;
