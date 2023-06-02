@@ -4,10 +4,15 @@ body{
   background-image: url("../kitchen.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
 }
 .container{
   width: 700px;
-  margin: 400px auto 0;
+  margin: 375px auto 0;
 }
 .App {
   display: flex;

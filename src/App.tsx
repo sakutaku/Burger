@@ -19,18 +19,18 @@ const INGREDIENTS: Ingredient[] = [
     {name: 'Meat', price: 80, image: MeatImage},
     {name: 'Cheese', price: 50, image: CheeseImage},
     {name: 'Salad', price: 10, image: SaladImage},
-    {name: 'Bakon', price: 60, image: BakonImage},
+    {name: 'Bacon', price: 60, image: BakonImage},
 ];
 const App = () => {
   const [ingredients, setIngredients] = useState([
     {name: 'Meat', count: 0, id: nanoid()},
     {name: 'Cheese', count: 0, id: nanoid()},
     {name: 'Salad', count: 0, id: nanoid()},
-    {name: 'Bakon', count: 0, id: nanoid()},
+    {name: 'Bacon', count: 0, id: nanoid()},
   ]);
 
   const [price, setPrice] = useState([0]);
-  const onDelete = (id: number) =>  {
+  const onDelete = (name: string, id: number) =>  {
       const ingredientsCopy = [...ingredients];
       const ingredientsObjCopy = {...ingredientsCopy[id]};
 
@@ -38,16 +38,20 @@ const App = () => {
           ingredientsObjCopy.count = ingredientsObjCopy.count - 1;
       }
 
-      console.log(ingredientsObjCopy);
       ingredientsCopy[id] = ingredientsObjCopy;
+
+      INGREDIENTS.map(ingredient => {
+          if(ingredient.name === name) {
+              const priceCopy = [...price];
+              priceCopy[0] = priceCopy[0] - ingredient.price;
+              setPrice(priceCopy);
+          }
+      });
       setIngredients(ingredientsCopy);
   };
 
-
-
-    const onItemClick = (name: string, id: number) => {
-
-        INGREDIENTS.map(ingredient => {
+  const onItemClick = (name: string, id: number) => {
+      INGREDIENTS.map(ingredient => {
          if(ingredient.name === name) {
              const priceCopy = [...price];
              priceCopy[0] = priceCopy[0] + ingredient.price;
@@ -60,7 +64,8 @@ const App = () => {
              setIngredients(ingredientsCopy);
          }
       });
-  };
+    };
+
 
   const ingredientsList = ingredients.map((ingredient, index) => {
       return (
@@ -71,10 +76,19 @@ const App = () => {
                     </a>
                     <span>{ingredient.name}</span>
                     <span>x{ingredient.count}</span>
-                    <button type="button" className="delete-btn" onClick={() => onDelete(index)}></button>
+                    <button type="button" className="delete-btn" onClick={() => onDelete(ingredient.name, index)}></button>
                 </div>
             </div>
       )
+  });
+
+
+  const classesOfIngredient: React.ReactNode[] = [];
+
+  ingredients.map(ingredient => {
+      for(let i = 0; i < ingredient.count; i++) {
+          classesOfIngredient.push(<div className={ingredient.name}></div>);
+      }
   });
 
   return (
@@ -89,7 +103,9 @@ const App = () => {
                     <div className="Seeds1"></div>
                     <div className="Seeds2"></div>
                 </div>
-
+                {classesOfIngredient.map(item => {
+                    return item;
+                })}
                 <div className="BreadBottom"></div>
             </div>
         </div>
